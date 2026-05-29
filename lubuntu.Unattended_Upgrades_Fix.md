@@ -1,14 +1,17 @@
-# Issue 1:
-`Citing for cache lock: Could not get lock /var/lib/dpkg/lock. It is held by process 34145 (dpkg)... 8s`
+# Issue 1: "Waiting for cache lock: Could not get lock"
 
 ```
+$ sudo apt install md2term
+Waiting for cache lock: Could not get lock /var/lib/dpkg/lock. It is held by process 34241 (dpkg)      
+Waiting for cache lock: Could not get lock /var/lib/dpkg/lock. It is held by process 34241 (dpkg)
+...
 $ ps aux|grep unattend
 root        1335  0.0  0.0 118060  3224 ?        Ssl  May06   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
 root       34126  1.0  4.1 494116 154220 ?       S    10:24   0:00 /usr/bin/python3 /usr/bin/unattended-upgrade
 ```
 - - -
 
-# Stop Unattended Upgrades Permanently
+# Fix: Stop Unattended Upgrades Permanently
 
 You have unattended upgrades running and holding the dpkg lock. Here's how to disable it permanently:
 
@@ -59,6 +62,8 @@ Stopping 'apt-daily-upgrade.service', but its triggering units are still active:
 apt-daily-upgrade.timer
 ```
 - - -
+
+# Fix: Stop Schedulers
 
 You also need to stop the **timers** that trigger these services. Here's the complete fix:
 
